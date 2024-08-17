@@ -1,8 +1,10 @@
 # Hywelbane
 
-Simple physics engine for study purposes.
+A simple 2D physics simulation for study purposes.
 
-Reference: https://pikuma.com/courses/game-physics-engine-programming
+Reference: https://pikuma.com/courses/game-physics-engine-programming.
+
+Hywelbane is the sword of Derfel Gadarn, a former warrior who fought alongside Arthur in the *Warlord Chronicles* book trilogy by Bernard Cornwell.
 
 #### Installation
 
