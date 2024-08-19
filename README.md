@@ -1,6 +1,6 @@
 # Hywelbane
 
-A simple 2D physics simulation for study purposes.
+A simple 2D physics simulation in Go for study purposes of both physics and Go.
 
 Reference: https://pikuma.com/courses/game-physics-engine-programming.
 
