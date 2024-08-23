@@ -23,7 +23,7 @@ func main() {
 	}
 }
 
-var s = 500
+var particle = physics.NewParticle(100.0, 100.0, 1)
 
 func Setup() {
 	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
@@ -49,7 +49,8 @@ func Cleanup() {
 }
 
 func Update() {
-
+	particle.Velocity = *physics.NewVec2(2.0, 1.0)
+	particle.Position.Add(&particle.Velocity)
 }
 
 func Input() {
@@ -60,8 +61,6 @@ func Input() {
 		}
 	}
 }
-
-var particle = physics.NewParticle(100.0, 100.0, 1)
 
 func Render() {
 	renderer.SetDrawColor(0, 0, 0, 255)
