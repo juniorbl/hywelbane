@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
+	"hywelbane/physics"
 	"log"
 )
 
@@ -60,12 +61,13 @@ func Input() {
 	}
 }
 
+var particle = physics.NewParticle(100.0, 100.0, 1)
+
 func Render() {
 	renderer.SetDrawColor(0, 0, 0, 255)
 	renderer.Clear()
-	s = s + 1
-	DrawCircle(renderer, s, 384, 10)
-	renderer.DrawLine(100, 100, 40, 90)
+	DrawCircle(renderer, int(particle.Position.X), int(particle.Position.Y), 5)
+	//renderer.DrawLine(100, 100, 40, 90)
 	renderer.Present()
 }
 
