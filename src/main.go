@@ -6,6 +6,11 @@ import (
 	"log"
 )
 
+const (
+	fps               = 60
+	millisecsPerFrame = 1000 / fps
+)
+
 var (
 	running  bool
 	window   *sdl.Window
@@ -24,6 +29,7 @@ func main() {
 }
 
 var particle = physics.NewParticle(100.0, 100.0, 1)
+var previousFrameTime uint64
 
 func Setup() {
 	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
@@ -49,7 +55,19 @@ func Cleanup() {
 }
 
 func Update() {
-	particle.Velocity = *physics.NewVec2(2.0, 1.0)
+	currentFrameTime := sdl.GetTicks64()
+	if previousFrameTime == 0 {
+		previousFrameTime = currentFrameTime
+	}
+
+	waitTimeToReachTargetFrameTime := millisecsPerFrame - uint32(currentFrameTime-previousFrameTime)
+	if waitTimeToReachTargetFrameTime > 0 && waitTimeToReachTargetFrameTime <= millisecsPerFrame {
+		sdl.Delay(waitTimeToReachTargetFrameTime)
+	}
+	deltaInSecs := float64(currentFrameTime-previousFrameTime) / 1000.0
+	previousFrameTime = sdl.GetTicks64()
+
+	particle.Velocity = *physics.NewVec2(500.0*deltaInSecs, 100.0*deltaInSecs)
 	particle.Position.Add(&particle.Velocity)
 }
 
