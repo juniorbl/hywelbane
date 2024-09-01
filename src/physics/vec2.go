@@ -27,6 +27,13 @@ func (v *Vec2) Scale(scalar float64) {
 	v.Y *= scalar
 }
 
+func (v Vec2) Multi(n float64) *Vec2 {
+	return &Vec2{
+		X: v.X * n,
+		Y: v.Y * n,
+	}
+}
+
 func (v *Vec2) Magnitude() float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }

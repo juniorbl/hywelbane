@@ -1,7 +1,7 @@
 package physics
 
 type Particle struct {
-	Position, Velocity, acceleration Vec2
+	Position, Velocity, Acceleration Vec2
 	mass                             float32
 }
 

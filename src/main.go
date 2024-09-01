@@ -9,6 +9,7 @@ import (
 const (
 	fps               = 60
 	millisecsPerFrame = 1000 / fps
+	pixelsPerMeter    = 50
 )
 
 var (
@@ -16,6 +17,9 @@ var (
 	window   *sdl.Window
 	renderer *sdl.Renderer
 )
+
+var particle = physics.NewParticle(100.0, 100.0, 1)
+var previousFrameTime uint64
 
 func main() {
 	running = true
@@ -27,9 +31,6 @@ func main() {
 		Render()
 	}
 }
-
-var particle = physics.NewParticle(100.0, 100.0, 1)
-var previousFrameTime uint64
 
 func Setup() {
 	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
@@ -65,10 +66,11 @@ func Update() {
 		sdl.Delay(waitTimeToReachTargetFrameTime)
 	}
 	deltaInSecs := float64(currentFrameTime-previousFrameTime) / 1000.0
-	previousFrameTime = sdl.GetTicks64()
+	previousFrameTime = currentFrameTime
 
-	particle.Velocity = *physics.NewVec2(500.0*deltaInSecs, 100.0*deltaInSecs)
-	particle.Position.Add(&particle.Velocity)
+	particle.Acceleration = *physics.NewVec2(0.0, 9.8*pixelsPerMeter)
+	particle.Velocity.Add(particle.Acceleration.Multi(deltaInSecs))
+	particle.Position.Add(particle.Velocity.Multi(deltaInSecs))
 }
 
 func Input() {
