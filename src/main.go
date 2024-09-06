@@ -10,6 +10,9 @@ const (
 	fps               = 60
 	millisecsPerFrame = 1000 / fps
 	pixelsPerMeter    = 50
+
+	window_height = 1024
+	window_width  = 768
 )
 
 var (
@@ -38,7 +41,7 @@ func Setup() {
 	}
 
 	var err error
-	window, err = sdl.CreateWindow("Hywelbane", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED, 1024, 768, sdl.WINDOW_SHOWN)
+	window, err = sdl.CreateWindow("Hywelbane", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED, window_height, window_width, sdl.WINDOW_SHOWN)
 	if err != nil {
 		log.Fatalf("Failed to create window: %s", err)
 	}
@@ -71,6 +74,23 @@ func Update() {
 	particle.Acceleration = *physics.NewVec2(0.0, 9.8*pixelsPerMeter)
 	particle.Velocity.Add(particle.Acceleration.Multi(deltaInSecs))
 	particle.Position.Add(particle.Velocity.Multi(deltaInSecs))
+
+	// temporary hack to keep particle inside window - horizontal boudaries
+	if particle.Position.X <= 0 {
+		particle.Position.X = 0.0
+		particle.Velocity.X *= -1.0
+	} else if particle.Position.X >= window_width {
+		particle.Position.X = window_width
+		particle.Velocity.X *= -1.0
+	}
+	// vertical boundaries
+	if particle.Position.Y <= 0 {
+		particle.Position.Y = 0.0
+		particle.Velocity.Y *= -1.0
+	} else if particle.Position.Y >= window_height {
+		particle.Position.Y = window_height
+		particle.Velocity.Y *= -1.0
+	}
 }
 
 func Input() {
