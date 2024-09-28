@@ -14,10 +14,9 @@ brew install sdl2{,_image,_mixer,_ttf,_gfx} pkg-config
 
 #### Build and Run
 
+```shell
 cd src/
-
 go mod tidy
-
 go build
-
 ./hywelbane
+```
