@@ -72,8 +72,7 @@ func Update() {
 	previousFrameTime = currentFrameTime
 
 	particle.Acceleration = *physics.NewVec2(0.0, 9.8*pixelsPerMeter)
-	particle.Velocity.Add(particle.Acceleration.Multi(deltaInSecs))
-	particle.Position.Add(particle.Velocity.Multi(deltaInSecs))
+	particle.Integrate(deltaInSecs)
 
 	// temporary hack to keep particle inside window - horizontal boudaries
 	if particle.Position.X <= 0 {

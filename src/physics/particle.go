@@ -11,3 +11,9 @@ func NewParticle(x float64, y float64, mass float32) *Particle {
 		mass:     mass,
 	}
 }
+
+func (p *Particle) Integrate(deltaInSecs float64) {
+	// Implicit Euler integration
+	p.Velocity.Add(p.Acceleration.Multi(deltaInSecs))
+	p.Position.Add(p.Velocity.Multi(deltaInSecs))
+}
