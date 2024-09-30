@@ -16,13 +16,13 @@ const (
 )
 
 var (
-	running  bool
-	window   *sdl.Window
-	renderer *sdl.Renderer
+	running           bool
+	window            *sdl.Window
+	renderer          *sdl.Renderer
+	gravity           = *physics.NewVec2(0.0, 9.8*pixelsPerMeter)
+	particle          = physics.NewParticle(100.0, 100.0, 1)
+	previousFrameTime uint64
 )
-
-var particle = physics.NewParticle(100.0, 100.0, 1)
-var previousFrameTime uint64
 
 func main() {
 	running = true
@@ -71,7 +71,10 @@ func Update() {
 	deltaInSecs := float64(currentFrameTime-previousFrameTime) / 1000.0
 	previousFrameTime = currentFrameTime
 
-	particle.Acceleration = *physics.NewVec2(0.0, 9.8*pixelsPerMeter)
+	wind := physics.NewVec2(2.0*pixelsPerMeter, 0.0)
+	particle.ApplyForce(wind)
+	particle.ApplyForce(&gravity)
+
 	particle.Integrate(deltaInSecs)
 
 	// temporary hack to keep particle inside window - horizontal boudaries
@@ -102,15 +105,15 @@ func Input() {
 }
 
 func Render() {
-	renderer.SetDrawColor(0, 0, 0, 255)
+	renderer.SetDrawColor(255, 255, 255, 255)
 	renderer.Clear()
-	DrawCircle(renderer, int(particle.Position.X), int(particle.Position.Y), 5)
+	DrawCircle(renderer, int(particle.Position.X), int(particle.Position.Y), 10)
 	//renderer.DrawLine(100, 100, 40, 90)
 	renderer.Present()
 }
 
 func DrawCircle(renderer *sdl.Renderer, x, y, radius int) {
-	renderer.SetDrawColor(255, 0, 0, 255)
+	renderer.SetDrawColor(100, 0, 0, 100)
 	for w := 0; w < radius*2; w++ {
 		for h := 0; h < radius*2; h++ {
 			dx := radius - w

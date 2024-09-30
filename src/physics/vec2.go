@@ -27,10 +27,17 @@ func (v *Vec2) Scale(scalar float64) {
 	v.Y *= scalar
 }
 
-func (v Vec2) Multi(n float64) *Vec2 {
+func (v Vec2) Multiply(n float64) *Vec2 {
 	return &Vec2{
 		X: v.X * n,
 		Y: v.Y * n,
+	}
+}
+
+func (v Vec2) Divide(n float64) *Vec2 {
+	return &Vec2{
+		X: v.X / n,
+		Y: v.Y / n,
 	}
 }
 

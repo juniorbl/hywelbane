@@ -1,11 +1,11 @@
 package physics
 
 type Particle struct {
-	Position, Velocity, Acceleration Vec2
-	mass                             float32
+	Position, Velocity, Acceleration, Forces Vec2
+	mass                                     float64
 }
 
-func NewParticle(x float64, y float64, mass float32) *Particle {
+func NewParticle(x float64, y float64, mass float64) *Particle {
 	return &Particle{
 		Position: *NewVec2(x, y),
 		mass:     mass,
@@ -13,7 +13,19 @@ func NewParticle(x float64, y float64, mass float32) *Particle {
 }
 
 func (p *Particle) Integrate(deltaInSecs float64) {
+	p.Acceleration = *p.Forces.Divide(p.mass)
+
 	// Implicit Euler integration
-	p.Velocity.Add(p.Acceleration.Multi(deltaInSecs))
-	p.Position.Add(p.Velocity.Multi(deltaInSecs))
+	p.Velocity.Add(p.Acceleration.Multiply(deltaInSecs))
+	p.Position.Add(p.Velocity.Multiply(deltaInSecs))
+
+	p.ClearForces()
+}
+
+func (p *Particle) ApplyForce(force *Vec2) {
+	p.Forces.Add(force)
+}
+
+func (p *Particle) ClearForces() {
+	p.Forces = *NewVec2(0.0, 0.0)
 }
