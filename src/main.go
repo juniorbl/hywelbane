@@ -108,7 +108,14 @@ func Render() {
 	renderer.SetDrawColor(255, 255, 255, 255)
 	renderer.Clear()
 	DrawCircle(renderer, int(particle.Position.X), int(particle.Position.Y), 10)
-	//renderer.DrawLine(100, 100, 40, 90)
+
+	renderer.SetDrawColor(0, 0, 255, 255)
+	startX := int32(particle.Position.X)
+	startY := int32(particle.Position.Y)
+	endX := int32(particle.Position.X + particle.Velocity.X)
+	endY := int32(particle.Position.Y + particle.Velocity.Y)
+	renderer.DrawLine(startX, startY, endX, endY)
+
 	renderer.Present()
 }
 
