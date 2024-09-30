@@ -19,7 +19,7 @@ var (
 	running           bool
 	window            *sdl.Window
 	renderer          *sdl.Renderer
-	gravity           = *physics.NewVec2(0.0, 9.8*pixelsPerMeter)
+	gravity           = physics.NewVec2(0.0, 9.8*pixelsPerMeter)
 	particle          = physics.NewParticle(100.0, 100.0, 1)
 	previousFrameTime uint64
 )
@@ -73,7 +73,7 @@ func Update() {
 
 	wind := physics.NewVec2(2.0*pixelsPerMeter, 0.0)
 	particle.ApplyForce(wind)
-	particle.ApplyForce(&gravity)
+	particle.ApplyForce(gravity)
 
 	particle.Integrate(deltaInSecs)
 
