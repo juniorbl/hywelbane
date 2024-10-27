@@ -20,7 +20,7 @@ var (
 	window            *sdl.Window
 	renderer          *sdl.Renderer
 	gravity           = physics.NewVec2(0.0, 9.8*pixelsPerMeter)
-	particle          = physics.NewParticle(100.0, 100.0, 1)
+	smallParticle     = physics.NewParticle(100.0, 100.0, 1)
 	previousFrameTime uint64
 )
 
@@ -72,26 +72,28 @@ func Update() {
 	previousFrameTime = currentFrameTime
 
 	wind := physics.NewVec2(2.0*pixelsPerMeter, 0.0)
-	particle.ApplyForce(wind)
-	particle.ApplyForce(gravity)
+	weight := physics.NewVec2(0.0, gravity.Multiply(smallParticle.Mass).Y)
+	smallParticle.ApplyForce(wind)
+	smallParticle.ApplyForce(gravity)
+	smallParticle.ApplyForce(weight)
 
-	particle.Integrate(deltaInSecs)
+	smallParticle.Integrate(deltaInSecs)
 
-	// temporary hack to keep particle inside window - horizontal boudaries
-	if particle.Position.X <= 0 {
-		particle.Position.X = 0.0
-		particle.Velocity.X *= -1.0
-	} else if particle.Position.X >= window_width {
-		particle.Position.X = window_width
-		particle.Velocity.X *= -1.0
+	// temporary hack to keep smallParticle inside window - horizontal boudaries
+	if smallParticle.Position.X <= 0 {
+		smallParticle.Position.X = 0.0
+		smallParticle.Velocity.X *= -1.0
+	} else if smallParticle.Position.X >= window_width {
+		smallParticle.Position.X = window_width
+		smallParticle.Velocity.X *= -1.0
 	}
 	// vertical boundaries
-	if particle.Position.Y <= 0 {
-		particle.Position.Y = 0.0
-		particle.Velocity.Y *= -1.0
-	} else if particle.Position.Y >= window_height {
-		particle.Position.Y = window_height
-		particle.Velocity.Y *= -1.0
+	if smallParticle.Position.Y <= 0 {
+		smallParticle.Position.Y = 0.0
+		smallParticle.Velocity.Y *= -1.0
+	} else if smallParticle.Position.Y >= window_height {
+		smallParticle.Position.Y = window_height
+		smallParticle.Velocity.Y *= -1.0
 	}
 }
 
@@ -107,13 +109,13 @@ func Input() {
 func Render() {
 	renderer.SetDrawColor(255, 255, 255, 255)
 	renderer.Clear()
-	DrawCircle(renderer, int(particle.Position.X), int(particle.Position.Y), 10)
+	DrawCircle(renderer, int(smallParticle.Position.X), int(smallParticle.Position.Y), 10)
 
 	renderer.SetDrawColor(0, 0, 255, 255)
-	startX := int32(particle.Position.X)
-	startY := int32(particle.Position.Y)
-	endX := int32(particle.Position.X + particle.Velocity.X)
-	endY := int32(particle.Position.Y + particle.Velocity.Y)
+	startX := int32(smallParticle.Position.X)
+	startY := int32(smallParticle.Position.Y)
+	endX := int32(smallParticle.Position.X + smallParticle.Velocity.X)
+	endY := int32(smallParticle.Position.Y + smallParticle.Velocity.Y)
 	renderer.DrawLine(startX, startY, endX, endY)
 
 	renderer.Present()

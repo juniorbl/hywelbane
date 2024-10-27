@@ -2,18 +2,18 @@ package physics
 
 type Particle struct {
 	Position, Velocity, Acceleration, Forces Vec2
-	mass                                     float64
+	Mass                                     float64
 }
 
 func NewParticle(x float64, y float64, mass float64) *Particle {
 	return &Particle{
 		Position: *NewVec2(x, y),
-		mass:     mass,
+		Mass:     mass,
 	}
 }
 
 func (p *Particle) Integrate(deltaInSecs float64) {
-	p.Acceleration = *p.Forces.Divide(p.mass)
+	p.Acceleration = *p.Forces.Divide(p.Mass)
 
 	// Implicit Euler integration
 	p.Velocity.Add(p.Acceleration.Multiply(deltaInSecs))
