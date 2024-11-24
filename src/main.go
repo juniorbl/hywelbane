@@ -11,8 +11,8 @@ const (
 	millisecsPerFrame = 1000 / fps
 	pixelsPerMeter    = 50
 
-	window_height = 1024
-	window_width  = 768
+	window_height = 1920
+	window_width  = 1080
 )
 
 var (
@@ -107,7 +107,7 @@ func Input() {
 }
 
 func Render() {
-	renderer.SetDrawColor(255, 255, 255, 255)
+	renderer.SetDrawColor(0, 128, 128, 255)
 	renderer.Clear()
 	DrawCircle(renderer, int(smallParticle.Position.X), int(smallParticle.Position.Y), 10)
 
@@ -123,7 +123,7 @@ func Render() {
 }
 
 func DrawCircle(renderer *sdl.Renderer, x, y, radius int) {
-	renderer.SetDrawColor(100, 0, 0, 100)
+	renderer.SetDrawColor(255, 255, 255, 255)
 	for w := 0; w < radius*2; w++ {
 		for h := 0; h < radius*2; h++ {
 			dx := radius - w
