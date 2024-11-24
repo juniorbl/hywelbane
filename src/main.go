@@ -111,12 +111,13 @@ func Render() {
 	renderer.Clear()
 	DrawCircle(renderer, int(smallParticle.Position.X), int(smallParticle.Position.Y), 10)
 
-	renderer.SetDrawColor(0, 0, 255, 255)
-	startX := int32(smallParticle.Position.X)
-	startY := int32(smallParticle.Position.Y)
-	endX := int32(smallParticle.Position.X + smallParticle.Velocity.X)
-	endY := int32(smallParticle.Position.Y + smallParticle.Velocity.Y)
-	renderer.DrawLine(startX, startY, endX, endY)
+	// Arrow to see the resulting force being applied to the particle
+	//	renderer.SetDrawColor(0, 0, 255, 255)
+	//	startX := int32(smallParticle.Position.X)
+	//	startY := int32(smallParticle.Position.Y)
+	//	endX := int32(smallParticle.Position.X + smallParticle.Velocity.X)
+	//	endY := int32(smallParticle.Position.Y + smallParticle.Velocity.Y)
+	//	renderer.DrawLine(startX, startY, endX, endY)
 
 	renderer.Present()
 }
