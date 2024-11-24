@@ -10,7 +10,7 @@ Hywelbane is the sword of Derfel Gadarn, a former warrior who fought alongside A
 
 ##### macOS
 
-brew install sdl2{,_image,_mixer,_ttf,_gfx} pkg-config
+brew install sdl2{,_image,_mixer,_ttf,_gfx} pkg-config go
 
 #### Build and Run
 
